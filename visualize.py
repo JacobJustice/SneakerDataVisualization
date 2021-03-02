@@ -1,5 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 import argparse
 import sys
 
@@ -9,9 +10,15 @@ parser.add_argument('--model', help='The name of the category/model of sneaker y
 parser.add_argument('--data', help='The .csv containing the data you want to visualize', required=True)
 parser.add_argument('--visual', help='The visualization that gets made',
                         choices=['profit-hist'], default='profit-hist')
+parser.add_argument('--context', help='Context for seaborn (leave default if you don\'t know what that is)',
+                        choices=['paper', 'notebook', 'talk', 'poster'], default='notebook')
 
 args = parser.parse_args(sys.argv[1:])
 
+
+sns.set_theme()
+sns.set(style='ticks',rc={'axes.grid':True})
+sns.set_context(args.context)
 
 def myround(x, base=5):
     return base * round(x/base)
@@ -37,16 +44,15 @@ def clean_stockx_dataframe(df):
 def plot_profit_histogram(df, binwidth=50):
     df['profit'] = df['average_sale_price'] - df['retail_price']
 
-    print(df['profit'])
-
     fig = plt.figure(figsize=(14,9))
     ax = fig.add_subplot(1,1,1)
+    ax.xaxis.grid(False)
+    ax.set_axisbelow(True)
+#    ax.yaxis.grid(color='gray', linestyle='dashed')
 
     ax.axvline(0,0,1,color='red')
-    ax.yaxis.grid(color='gray', linestyle='dashed', zorder=-1)
-
     n, bins, patches = plt.hist(x=df['profit'], bins=range(myround(df['profit'].min(),binwidth), myround(df['profit'].max() + binwidth,binwidth), binwidth), color='#0504aa',
-                                alpha=.7,range=[df['profit'].min(),df['profit'].max()], edgecolor='black', zorder=10)
+                                alpha=.7,range=[df['profit'].min(),df['profit'].max()], edgecolor='black')
 
     plt.title ('Frequency of Net Profit Values For ' + name_of_sneaker_model + ' Sneaker Releases (n='+str(len(df['profit']))+')')
     plt.xlabel('Average Net Profit (Difference Between Mean Resale Price and Retail Price) in $USD')
@@ -55,10 +61,8 @@ def plot_profit_histogram(df, binwidth=50):
         [get_numeric_string(x) for x in range(myround(df['profit'].min(),binwidth), myround(df['profit'].max() + binwidth,binwidth), binwidth)])
 #    plt.vlines(0,ymin=0,ymax=n.max()+10,colors=['red'])
 
+    plt.rcParams['axes.axisbelow'] = True
 
-    plt.rc('axes', axisbelow=True)
-
-    ax.set_axisbelow(True)
     plt.draw()
     plt.savefig('profit' + name_of_sneaker_model + '.png')
 
