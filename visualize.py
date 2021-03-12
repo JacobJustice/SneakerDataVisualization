@@ -57,12 +57,14 @@ def plot_profit_histogram(df, binwidth=50, xlim_min=-200, xlim_max=1000):
     n, bins, patches = plt.hist(x=df['profit'], bins=bin_range, color='#6495ed',
                                 alpha=1,range=[int(df['profit'].min()),int(df['profit'].max())], edgecolor='black')
 
-    plt.title ('Frequency of Net Profit Values For ' + name_of_sneaker_model + ' Sneaker Releases (n='+str(len(df['profit']))+')')
+    ttl = plt.title ('Frequency of Net Profit Values For ' + name_of_sneaker_model + ' Sneaker Releases (n='+str(len(df['profit']))+')')
+    ttl.set_position([.5, 1.05])
+
     plt.xlabel('Average Net Profit (Difference Between Mean Resale Price and Retail Price) in $USD')
     plt.ylabel('Frequency')
 
     xtick_names = [get_numeric_string(x) for x in bin_range]
-    ax.set_xticklabels(xtick_names, rotation=40)
+    ax.set_xticklabels(xtick_names, rotation=40, fontsize=20)
     ax.set_xticks(bin_range)
 
     plt.xlim(xlim_min, xlim_max)
