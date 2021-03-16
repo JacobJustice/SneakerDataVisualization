@@ -58,6 +58,7 @@ def plot_profit_histogram(df, binwidth=50, xlim_min=-200, xlim_max=1000):
                                 alpha=1,range=[int(df['profit'].min()),int(df['profit'].max())], edgecolor='black')
 
     ttl = plt.title ('Frequency of Net Profit Values For ' + name_of_sneaker_model + ' Sneaker Releases (n='+str(len(df['profit']))+')')
+#    ttl = plt.title ('Frequency of Predicted Net Profit Values For ' + name_of_sneaker_model + ' Sneaker Releases (n='+str(len(df['profit']))+')')
 
     ttl.set_position([.5, 1.05])
 
@@ -70,7 +71,8 @@ def plot_profit_histogram(df, binwidth=50, xlim_min=-200, xlim_max=1000):
 
     plt.xlim(xlim_min, xlim_max)
 
-    plt.text(700,n.max(), r'$\mu=$' + '{0:.2f}'.format(df['profit'].mean()))
+    plt.text(700,n.max(), r'$\mu=\$$' + '{0:.2f}'.format(df['profit'].mean()))
+#    plt.text(700,n.max()-5, r'$R^2=$' + '{0:.3f}'.format(0.41429422484288997))
 
     plt.rcParams['axes.axisbelow'] = True
 
