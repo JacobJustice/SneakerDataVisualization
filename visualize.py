@@ -58,6 +58,7 @@ def plot_profit_histogram(df, binwidth=50, xlim_min=-200, xlim_max=1000):
                                 alpha=1,range=[int(df['profit'].min()),int(df['profit'].max())], edgecolor='black')
 
     ttl = plt.title ('Frequency of Net Profit Values For ' + name_of_sneaker_model + ' Sneaker Releases (n='+str(len(df['profit']))+')')
+
     ttl.set_position([.5, 1.05])
 
     plt.xlabel('Average Net Profit (Difference Between Mean Resale Price and Retail Price) in $USD')
@@ -76,7 +77,7 @@ def plot_profit_histogram(df, binwidth=50, xlim_min=-200, xlim_max=1000):
     fig.tight_layout()
 
     plt.draw()
-    plt.savefig('profit' + name_of_sneaker_model + '.png')
+    plt.savefig('profit' + name_of_sneaker_model.replace(' ', '') + '.png')
 
 # converts a number into a string with a - in front if it's negative and a + in front if it's positive
 def get_numeric_string(val):
